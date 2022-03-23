@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>景区咨询</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/scennic.css">
+    <link rel="stylesheet" href="../font/iconfont.css">
+
+    <link rel="stylesheet" href="../bt4/css/bootstrap.css">
+    <script>
+        function fanhui() {
+            window.history.back();//返回
+        }
+    </script>
+</head>
+<body>
+<!--调用头部公共代码-->
+<div th:replace="~{base::header}"></div>
+
+<section style="display: flex">
+    <!--调用公共的代码片段-->
+    <div th:replace="~{base::section_leaf('serve')}" class="bg-light"></div>
+
+    <div class="base_rahit bg-light">
+        <div style="height: 45px; background-color:#eeeeee;display: flex; justify-content: space-between"
+             class="ml-3 mt-3">
+            <div class=" mt-2">
+                <span class="text-muted font-weight-bold mt-5 ml-3 "
+                      style="font-size: 20px;margin-top: 5px;">添加景区咨询</span>
+            </div>
+        </div>
+        <div type="hidden" id="show_span"></div>
+        <form th:action="@{/main/serve1}" method="post" class="m-3">
+            <div class="mt-3 mb-3" style="background-color:#eeeeee;">
+                <span style="width: 80px; text-align: right;margin-left: 62px;"><b
+                        style="color: red;font-size: 16px;">*</b>资讯点名称：</span><input type="text" name="title"
+                                                                                     class="mr-3 mt-3 mb-3"
+                                                                                     style="height: 28px;width: 60%">
+            </div>
+            <div>
+                <span style="width: 80px; text-align: right;margin-left: 76px;"><b
+                        style="color: red;font-size: 16px;">*</b>联系号码：</span><input type="text" name="tho"
+                                                                                    class="mr-3 mt-3 mb-3"
+                                                                                    style="height: 28px; width: 60%">
+            </div>
+            <div class="mt-3" style="background-color:#eeeeee;">
+                <input type="submit" value="提交" class="btn btn-success text-white mt-3 mb-3" style="margin-left: 142px"
+                       onclick="return check()">
+                <input type="button" value="返回" class=" btn btn-success text-white" onclick="fanhui();">
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+<script type="text/javascript" src="../bt4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../bt4/js/popper.min.js"></script>
+<script type="text/javascript" src="../bt4/js/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript" src="../js/serve303.js"></script>
+
+</html>

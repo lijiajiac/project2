@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yida.project.mapper.ReleasingNoticesMapper">
+
+    <!--开启mybatis二级缓存-->
+    <!--<cache/>-->
+    <!--开启自定义Redis缓存-->
+    <cache type="com.yida.project.config.RedisCache"/>
+
+    <insert id="add">
+        insert into s_releasing_notices(
+        title,scenic_id,time,time2,traffic,adult,child,site,tickets,
+        territory,longitude,latitude,tho,tho2,brief,spot_images,Modify_time,thumbnail
+        ) values(
+        #{title},#{scenic.id},#{time},#{time2},#{traffic},#{adult},#{child},#{site},#{tickets},
+        #{territory},#{longitude},#{latitude},#{tho},#{tho2},#{brief},#{spotImages},#{ModifyTime},#{thumbnail}
+        )
+    </insert>
+
+    <update id="Update">
+        update s_releasing_notices
+        <set>
+            title=#{title},
+            scenic_id=#{scenic.id},
+            time=#{time},
+            time2=#{time2},
+            traffic=#{traffic},
+            adult=#{adult},
+            child=#{child},
+            site=#{site},
+            tickets=#{tickets},
+            territory=#{territory},
+            longitude=#{longitude},
+            latitude=#{latitude},
+            tho=#{tho},
+            tho2=#{tho2},
+            brief=#{brief},
+            spot_images=#{spotImages},
+            Modify_time=#{ModifyTime},
+            <if test="thumbnail !=null and thumbnail != ''">
+                thumbnail=#{thumbnail}
+            </if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+    <resultMap id="my_map" type="com.yida.project.entity.ReleasingNotices">
+        <id property="id" column="id"></id>
+        <result property="title" column="title"></result>
+        <result property="time" column="time"></result>
+        <result property="time2" column="time2"></result>
+        <result property="traffic" column="traffic"></result>
+        <result property="adult" column="adult"></result>
+        <result property="child" column="child"></result>
+        <result property="site" column="site"></result>
+        <result property="tickets" column="tickets"></result>
+        <result property="territory" column="territory"></result>
+        <result property="longitude" column="longitude"></result>
+        <result property="latitude" column="latitude"></result>
+        <result property="tho" column="tho"></result>
+        <result property="tho2" column="tho2"></result>
+        <result property="brief" column="brief"></result>
+        <result property="spotImages" column="spot_images"></result>
+        <result property="ModifyTime" column="Modify_time"></result>
+        <result property="thumbnail" column="thumbnail"></result>
+        <association property="scenic" column="scenic_id"
+                     select="com.yida.project.mapper.ScenicMapper.Read"></association>
+    </resultMap>
+    <!--查一个-->
+    <select id="selectOn" resultMap="my_map">
+        select * from s_releasing_notices
+        <where>
+            id=#{id}
+        </where>
+    </select>
+    <!--查所有-->
+    <select id="ReadAll" resultMap="my_map">
+        select * from s_releasing_notices
+    </select>
+    <!--模糊查询-->
+    <select id="seleteall" resultMap="my_map">
+        select * from s_releasing_notices
+        <where>
+            <if test="title != null and title !='' ">
+                and title like #{title}
+            </if>
+            <if test=" scenic_id != 0">
+                and scenic_id= #{scenic_id}
+            </if>
+            <if test="begin !=null and begin!=''">
+                and Modify_time > #{begin}
+            </if>
+            <if test="end!=null and end!=''">
+                and Modify_time <![CDATA[<]]> #{end}
+            </if>
+        </where>
+    </select>
+</mapper>

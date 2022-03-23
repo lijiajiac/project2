@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d8074a60-8ae5-4312-a673-3862d3bbc9ed" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="project@localhost" type="feb32156:DbDataSourceImpl" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="project" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+        <option value="HTML File" />
+        <option value="Interface" />
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="d:\develop\MAVEN\repository" />
+        <option name="mavenHome" value="d:/develop/apache-maven-3.6.1" />
+        <option name="userSettingsFile" value="d:\develop\apache-maven-3.6.1\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="22PWtA23Xi23w1GRlHOohVQPWnW" />
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="sqlite&#10;mysql" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="D:/JAVA/13.redis/源代码/yida-redis-session" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.import" />
+  </component>
+  <component name="RebelAgentSelection">
+    <selection>xr</selection>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\IdeaWorkSpace\project\src\main\resources\mybatis\mapper" />
+      <recent name="D:\IdeaWorkSpace\project\src\main\resources\templates" />
+      <recent name="D:\IdeaWorkSpace\project\src\main\resources\static\MD5" />
+      <recent name="D:\IdeaWorkSpace\project\src\main\java\com\yida\project\cache" />
+      <recent name="D:\IdeaWorkSpace\project\src\main\java\com\yida\project" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.yida.project.serviceImpl" />
+      <recent name="com.yida.project.mapper" />
+      <recent name="com.yida.project.cache" />
+      <recent name="com.yida.project.util" />
+      <recent name="com.yida.project.shiro" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\IdeaWorkSpace\project\src\main\resources\mybatis\mapper" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="ProjectApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="project" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.yida.project.ProjectApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d8074a60-8ae5-4312-a673-3862d3bbc9ed" name="Default Changelist" comment="" />
+      <created>1639739914845</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1639739914845</updated>
+      <workItem from="1639739918067" duration="1316000" />
+      <workItem from="1639742393359" duration="3646000" />
+      <workItem from="1639792029206" duration="27863000" />
+      <workItem from="1639824442266" duration="2531000" />
+      <workItem from="1639964898118" duration="28369000" />
+      <workItem from="1639997384387" duration="13908000" />
+      <workItem from="1640014010540" duration="980000" />
+      <workItem from="1640051545318" duration="25716000" />
+      <workItem from="1640088249797" duration="3748000" />
+      <workItem from="1640138865913" duration="26493000" />
+      <workItem from="1640170234118" duration="8746000" />
+      <workItem from="1640226302616" duration="25135000" />
+      <workItem from="1640261449909" duration="21959000" />
+      <workItem from="1640329986957" duration="2812000" />
+      <workItem from="1640570619342" duration="27986000" />
+      <workItem from="1640657501053" duration="26504000" />
+      <workItem from="1640688328894" duration="3609000" />
+      <workItem from="1640742921785" duration="27733000" />
+      <workItem from="1640829485817" duration="23492000" />
+      <workItem from="1640916340007" duration="23447000" />
+      <workItem from="1641006287499" duration="640000" />
+      <workItem from="1641174912037" duration="26376000" />
+      <workItem from="1641262221503" duration="26683000" />
+      <workItem from="1641294035627" duration="29117000" />
+      <workItem from="1641379888348" duration="12214000" />
+      <workItem from="1641445363311" duration="17386000" />
+      <workItem from="1641469011698" duration="658000" />
+      <workItem from="1641521571400" duration="22933000" />
+      <workItem from="1641607044420" duration="22617000" />
+      <workItem from="1641780500106" duration="26981000" />
+      <workItem from="1641811700322" duration="28047000" />
+      <workItem from="1641954423333" duration="5939000" />
+      <workItem from="1641965283169" duration="15753000" />
+      <workItem from="1641985196482" duration="2577000" />
+      <workItem from="1642040041050" duration="25229000" />
+      <workItem from="1642126127344" duration="18849000" />
+      <workItem from="1642147612885" duration="6133000" />
+      <workItem from="1642160245446" duration="1621000" />
+      <workItem from="1642403017556" duration="10559000" />
+      <workItem from="1644460198094" duration="25152000" />
+      <workItem from="1644545213058" duration="1990000" />
+      <workItem from="1644549329308" duration="339000" />
+      <workItem from="1644558529484" duration="14457000" />
+      <workItem from="1644577364291" duration="4493000" />
+      <workItem from="1644634670523" duration="6114000" />
+      <workItem from="1644896396063" duration="906000" />
+      <workItem from="1644897378572" duration="8765000" />
+      <workItem from="1644919511002" duration="8087000" />
+      <workItem from="1644976054445" duration="12886000" />
+      <workItem from="1645154497586" duration="314000" />
+      <workItem from="1645175813312" duration="88000" />
+      <workItem from="1645243610791" duration="24000" />
+      <workItem from="1645431185175" duration="58000" />
+      <workItem from="1645431709504" duration="651000" />
+      <workItem from="1645518222394" duration="229000" />
+      <workItem from="1645684567477" duration="118000" />
+      <workItem from="1645687038850" duration="198000" />
+      <workItem from="1646035707741" duration="7755000" />
+      <workItem from="1646797838389" duration="2546000" />
+      <workItem from="1646909524407" duration="2965000" />
+      <workItem from="1646964612629" duration="25612000" />
+      <workItem from="1647053807013" duration="8808000" />
+      <workItem from="1647063221299" duration="13700000" />
+      <workItem from="1647176660990" duration="360000" />
+      <workItem from="1647223038748" duration="3866000" />
+      <workItem from="1647315646739" duration="91000" />
+      <workItem from="1647343173193" duration="638000" />
+      <workItem from="1647406776084" duration="19319000" />
+      <workItem from="1647481707997" duration="10192000" />
+      <workItem from="1647493688071" duration="17595000" />
+      <workItem from="1647569311050" duration="8570000" />
+      <workItem from="1647580842675" duration="25448000" />
+      <workItem from="1647669128433" duration="1195000" />
+      <workItem from="1647671652083" duration="8768000" />
+      <workItem from="1647681891929" duration="4724000" />
+      <workItem from="1647688808153" duration="166000" />
+      <workItem from="1647696161091" duration="950000" />
+      <workItem from="1647867789146" duration="37000" />
+      <workItem from="1647868508409" duration="811000" />
+      <workItem from="1647869666146" duration="973000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/yida/project/entity/ReleasingNotices.java</url>
+          <line>12</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/yida/project/entity/ReleasingNotices.java</url>
+          <line>14</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/yida/project/serviceImpl/UserServiceImpl.java</url>
+          <line>71</line>
+          <option name="timeStamp" value="124" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/main/resources/templates/scennic.html</url>
+          <line>130</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/main/resources/static/js/scennic303.js</url>
+          <line>1</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/main/resources/static/js/rim.js</url>
+          <line>21</line>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/main/resources/templates/scennic.html</url>
+          <line>138</line>
+          <option name="timeStamp" value="104" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/src/main/java/com/yida/project/entity/User.java</url>
+          <line>20</line>
+          <properties field="serialVersionUID" class="com.yida.project.entity.User" />
+          <option name="timeStamp" value="108" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/yida/project/shiro/ShiroRealm.java</url>
+          <line>54</line>
+          <properties class="com.yida.project.shiro.ShiroRealm" method="doGetAuthenticationInfo">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="136" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="files.length" language="JAVA" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/project$ProjectApplication.ic" NAME="ProjectApplication Coverage Results" MODIFIED="1647603345198" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+</project>

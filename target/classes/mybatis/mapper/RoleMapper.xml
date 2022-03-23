@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yida.project.mapper.RoleMapper">
+
+    <resultMap type="com.yida.project.entity.Role" id="RoleMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <collection property="permission" javaType="java.util.Set" ofType="com.yida.project.entity.Permission">
+            <id property="id" column="pid"></id>
+            <result property="name" column="pname"></result>
+            <result property="url" column="purl"></result>
+        </collection>
+    </resultMap>
+
+
+    <select id="selectRoles" resultMap="RoleMap">
+        SELECT r.* , p.id pid, p.name pname, p.url purl FROM permission p
+        INNER JOIN role_permission rp ON p.id = rp.permission_id
+        INNER JOIN role r ON r.id = rp.role_id
+        WHERE r.id = #{roleid};
+    </select>
+</mapper>
+

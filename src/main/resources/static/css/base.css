@@ -1,0 +1,134 @@
+/*-----------------------通用的----------------------------*/
+html, body {
+    width: 100%;
+    height: 100%;
+    padding-right: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    color: gray;
+}
+
+
+/*-----------------------header头部----------------------------------*/
+header {
+    width: 100%;
+    height: 50px;
+    margin-right: 0px;
+}
+
+/*---------------------------------------------------------*/
+
+
+/*----------------------leaf左侧-----------------------------------*/
+.base_laef {
+    height: 100%;
+    width: 20%;
+    min-height: 550px;
+    min-width: 110px;
+    display: flex;
+    flex-direction: column;
+    margin-right: 2px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.base_laef .base_lafe_span {
+    width: 100%;
+    height: 35px;
+    background-color: #8d8f8c;
+    color: white;
+    align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+    padding-top: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+
+}
+
+.base_laef .base_lafe_a {
+    font-weight: bold;
+    width: 100%;
+    height: 35px;
+    background-color: #dee0dd;
+    color: #848683;
+    border-bottom: 2px solid #999999;
+    padding-top: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.base_laef .base_lafe_aa {
+    font-weight: bold;
+    width: 100%;
+    height: 35px;
+    background-color: #dee0dd;
+    color: #848683;
+    padding-top: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.base_laef .base_lafe_a:hover {
+    color: #34ce57;
+}
+
+.base_laef .base_lafe_aa:hover {
+    color: #34ce57;
+}
+
+.base_lafe_ma {
+    font-weight: bold;
+    width: 100%;
+    height: 35px;
+    border-bottom: 2px solid #999999;
+    padding-top: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+    color: #34ce57;
+    background-color: #dee0dd;
+    font-size: 16px;
+}
+
+.base_lafe_maa {
+    font-weight: bold;
+    width: 100%;
+    height: 35px;
+    padding-top: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+    color: #34ce57;
+    background-color: #dee0dd;
+    font-size: 16px;
+}
+
+.base_laef .base_lafe_ma:hover {
+    color: #34ce57;
+}
+
+.base_laef .base_lafe_maa:hover {
+    color: #34ce57;
+}
+
+/*---------------------------------------------------------*/
+
+section {
+    width: 100%;
+    height: 100%;
+    min-height: 850px;
+    margin-right: 0px;
+}
+
+/*-----------------------右侧 main----------------------------------*/
+.base_rahit {
+    height: 100%;
+    width: 80%;
+    margin-right: 0px;
+    min-height: 850px;
+}
+
+/*---------------------------------------------------------*/

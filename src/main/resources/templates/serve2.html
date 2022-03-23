@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>投诉和建议</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../font/iconfont.css">
+
+    <link rel="stylesheet" href="../bt4/css/bootstrap.css">
+    <script>
+        function deletes2() {//消息列表
+            var ids = ""
+            var arr = document.getElementsByName("che");
+            var count = 0;
+            for (var a = 0; a < arr.length; a++) {
+                var zf = arr[a];
+                if (zf.checked == true) {
+                    count++;
+                    var pre = zf.parentNode.parentNode.childNodes;
+                    var a1 = pre[1].value;
+                    ids += (a1 + ",");
+                }
+            }
+            if (count == 0) {
+                alert("请选择一组需要删除的景点");
+                return false;
+            } else {
+                window.location.href = "/main/serve2_1?" + "ids=" + ids;//使用js传递参数到指定的controller里
+            }
+        }
+
+        function quanxuan() {
+            var qx = document.getElementById("quanxuan");
+            var arr = document.getElementsByName("che");
+            for (var a = 0; a < arr.length; a++) {
+                var zf = arr[a];
+                zf.checked = qx.checked;
+            }
+        }
+
+        function danxuan() {
+            var quanxuan = document.getElementById("quanxuan");
+            var arr = document.getElementsByName("che");
+            var count = 0;
+            for (var a = 0; a < arr.length; a++) {
+                var f = arr[a];
+                if (f.checked == false) {
+                    quanxuan.checked = false;
+                } else {
+                    count++;
+                }
+            }
+            if (count == arr.length) {
+                quanxuan.checked = true;
+            }
+        }
+
+        function deleteone(th) {  //单选删除按钮
+            var chi = th.parentNode.parentNode.childNodes;
+            var fir = chi[3].firstChild;
+            console.log(fir.checked);
+            if (fir.checked == false) {
+                alert("请选择删除的景点");
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
+</head>
+<body>
+<!--调用头部公共代码-->
+<div th:replace="~{base::header}"></div>
+
+<section style="display: flex">
+    <!--调用公共的代码片段-->
+    <div th:replace="~{base::section_leaf('serve2')}" class="bg-light"></div>
+
+    <div class="base_rahit bg-light">
+        <div style="height: 45px; background-color:#eeeeee;display: flex; justify-content: space-between"
+             class="ml-3 mt-3">
+            <div class=" mt-2">
+                <span class="text-muted font-weight-bold mt-5 ml-3 "
+                      style="font-size: 20px;margin-top: 5px;">投诉和建议</span>
+            </div>
+            <div>
+                <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mt-3 mr-5 mb-1"
+                   onclick="return deletes2()">删除</a>
+            </div>
+        </div>
+        <form th:action="@{/main/serve2}" method="post" class="m-3">
+            <div style="display: flex;flex-wrap: wrap;margin-left: 15px">
+                反馈时间： <input type="text" class="mr-3  Wdate mr-1" name="begin"
+                             onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,readOnly:true})"
+                             style="width: 180px !important;height: 28px !important;">至
+                <input type="text" class="  Wdate ml-2 mr-2" name="end"
+                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,readOnly:true})"
+                       style="width: 180px !important;height: 28px !important;">
+                阅读状态：
+                <select style="border:1px solid black;width: 80px;background-color: white;height: 28px;">
+                    <option>全部</option>
+                    <option>已读</option>
+                    <option>未读</option>
+                </select>
+                <button type="submit" class="btn btn-success  text-white ml-3">搜索</button>
+            </div>
+        </form>
+        <table class="w-100 m-3" style="margin-left: 15px; text-align: center;">
+            <tr style="font-weight: bold; background-color: #00ced1;">
+                <th class="pt-3 pb-3"><input type="checkbox" class="ml-3" id="quanxuan" onclick="quanxuan()"></th>
+                <th>序号</th>
+                <th>反馈内容</th>
+                <th>阅读状态</th>
+                <th>联系电话</th>
+                <th>反馈时间</th>
+                <th>操作</th>
+            </tr>
+            <tr th:each="se,state:${list}" style="color: black;">
+                <input type="hidden" th:value="${se.id}">
+                <td class="pt-3 pb-3"><input type="checkbox" class="ml-3" id="mychek" name="che" onclick="danxuan()">
+                </td>
+                <td th:text="${state.count}"></td>
+                <td th:text="${se.feedback}" style="color: orange;"></td>
+                <div th:if="${se.readss==1}">
+                    <td style="color: green">未阅读</td>
+                </div>
+                <td th:if="${se.readss==0}" style="color: green">已阅读</td>
+                <td th:text="${se.tel}"></td>
+                <td th:text="${#dates.format(se.feedbackTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td>
+                    <a th:href="@{/main/ser2(id=${se.id})}" class="btn btn-outline-success btn-sm mt-3 mr-5 mb-1"
+                       onclick="return deleteone(this)">删除</a>
+                </td>
+
+            </tr>
+        </table>
+    </div>
+</section>
+</body>
+<script type="text/javascript" src="../bt4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../bt4/js/popper.min.js"></script>
+<script type="text/javascript" src="../bt4/js/jquery-3.3.1.min.js"></script>
+
+
+<script src="../My97DatePicker/WdatePicker.js"></script><!--日历控件需要-->
+</html>

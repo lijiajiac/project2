@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yida.project.mapper.ScenicMapper">
+
+    <!--单表操作，开启自定义Redis缓存-->
+    <!-- <cache type="com.yida.redisyida.cache.RedisCache"/>-->
+    <!--
+ 对于多表关联查询，使用上述 cache 缓存，会出问题！
+ 因为更新(添加，修改，删除)表数据，只会清空对应 namespace 的 cache 缓存，
+ 关联的 namespace 的 cache 缓存并不会清空!所以保存的还是之前旧的信息!
+ 解决：使用<cache-ref>标签，让关联表共用同一个 namespace 的 cache 缓存。
+ -->
+    <cache-ref namespace="com.yida.project.mapper.ReleasingNoticesMapper"/>
+
+
+    <select id="Read" resultType="com.yida.project.entity.Scenic">
+        select * from s_scenic where id = #{id}
+    </select>
+</mapper>

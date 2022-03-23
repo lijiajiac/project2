@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>长寿和概况</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../font/iconfont.css">
+    <link rel="stylesheet" href="../css/scennic.css">
+    <link rel="stylesheet" href="../bt4/css/bootstrap.css">
+
+    <link rel="stylesheet" href="KindEditor/themes/default/default.css"/>
+    <link rel="stylesheet" href="KindEditor/themes/simple/simple.css"/>
+    <script charset="utf-8" src="KindEditor/kindeditor-all.js"></script>
+    <script charset="utf-8" src="KindEditor/lang/zh-CN.js"></script>
+    <script>
+        //关闭过滤模式，保留所有标签
+        KindEditor.options.filterMode = false;
+        KindEditor.ready(function (K) {
+            window.editor = K.create('#editor_id', {
+                themeType: 'default', //定义主题风格，default，simple
+                /*items:[ //定义显示的菜单图标
+                    'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+                    'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                    'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                    'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+                    'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                    'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+                    'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+                    'anchor', 'link', 'unlink'
+            	],*/
+                items: [ //定义显示的菜单图标
+                    'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                    'italic', 'underline', 'removeformat', '|', 'justifyleft',
+                    'justifycenter', 'justifyright', 'insertorderedlist',
+                    'insertunorderedlist', 'link', 'plainpaste', 'image'
+                ],
+                uploadJson: 'upload',
+                fileManagerJson: 'browser',
+                //指定后台接收的图片的名称
+                filePostName: 'aa',
+                allowFileManager: true
+            });
+        });
+
+        function getContent() {
+            //方式二： 同步数据后可以直接取得textarea的value
+            editor.sync();
+            html = document.getElementById('editor_id').value; // 原生API
+        }
+
+        function setContent() {
+            // 设置HTML内容
+            editor.html('333HTML内容111222');
+        }
+
+
+        function shanchu(th) {
+            var tr = th.parentNode.parentNode;//得到一行的tr
+            tr.remove();
+            var mytd2 = document.getElementById("yida-tf-td2").innerText;//分离出总大小
+            var s1 = mytd2.split("：");
+            var s2 = s1[1].split("k");
+            var mytd3 = document.getElementById("yida-tf-td").innerText;//分离出总文件个数
+            var yu = mytd3.split("个");
+            var tdd = Number(yu[0]);
+            var p = Number(s2[0]);
+
+            var tds = tr.childNodes;
+            for (var a = 0; a < tds.length; a++) {
+                if (tds[a].className == "yida-size") {
+                    var td = tds[a].innerText;
+                    var td2 = td.split("k");
+                    var pp = p - Number(td2[0]);
+                    tdd--;
+                }
+            }
+            if (pp > 0) {
+                var mytd2 = document.getElementById("yida-tf-td2");//获取标签对象
+                mytd2.setAttribute('style', 'color:black');
+                mytd2.innerHTML = "总计：" + (pp.toFixed(2)) + "kb";
+
+                var mytd2 = document.getElementById("yida-tf-td");//获取标签对象
+                mytd2.setAttribute('style', 'color:black');
+                mytd2.innerHTML = tdd + "个文件";
+            } else {
+                var mytd2 = document.getElementById("yida-tf-td2");//获取标签对象
+                mytd2.setAttribute('style', 'color:black');
+                mytd2.innerHTML = "总计：" + 0.00 + "kb";
+
+                var mytd2 = document.getElementById("yida-tf-td");//获取标签对象
+                mytd2.setAttribute('style', 'color:black');
+                mytd2.innerHTML = tdd + "个文件";
+            }
+
+            //删除配图后更新要保存在数据库的数据
+            var v = th.parentNode.parentNode.childNodes[9].value;//要删除的数据
+            var s = document.getElementById("spotImages").value;//得道数据库保存信息
+            var zi = v.substring(1, v.length - 15);   //要删除得的配图信息
+            var split1 = s.split(",");    //分离数据库保存的数据得道每一个配图的信息
+            for (var a = 0; a < split1.length; a++) {    //遍历
+                var st = split1[a];
+                if (st.indexOf(zi) != -1) {          //判断要删除的配图信息是分离出的那一条
+                    var number = s.indexOf(st);      //查看删除配图在数据库信息中的位置
+                    if (number == 0) {
+                        var s1 = s.substring(st.length + 1, s.length);          //通过查出的位置索引，截取去掉需要删除的配图信息，
+                        document.getElementById("spotImages").value = s1;     //更新数据库保存的配图信息
+                    } else if (number > 0) {
+                        var s2 = s.substring(0, number - 1);
+                        var s3 = s.substring(st.length + number, s.length);
+                        document.getElementById("spotImages").value = s2 + s3;
+                    }
+                }
+            }
+            console.log(document.getElementById("spotImages").value);
+            //更新显示文件大小数据
+        }
+    </script>
+
+</head>
+<body>
+<!--调用头部公共代码-->
+<div th:replace="~{base::header}"></div>
+
+<section style="display: flex">
+    <!--调用公共的代码片段-->
+    <div th:replace="~{base::section_leaf('setup')}" class="bg-light"></div>
+
+    <div class="base_rahit bg-light">
+        <div style="height: 45px; background-color:#eeeeee;display: flex; justify-content: space-between" class="mt-3">
+            <div class=" mt-2">
+                <span class="text-muted font-weight-bold mt-5 ml-3 "
+                      style="font-size: 20px;margin-top: 5px;">长寿概况</span>
+            </div>
+        </div>
+
+
+        <form th:action="@{/main/setup1}" method="post" enctype="multipart/form-data">
+            <!-- enctype="multipart/form-data"-->
+            <input type="hidden" th:value="${setup.id}" name="cid">
+            <input type="hidden" name="spotImages" id="spotImages" th:value="${str}">
+            <input type="hidden" name="cid" th:value="${id}">
+
+            <div class="w-100">
+                <div style="background-color:#eeeeee;display: flex;align-items: center" class="m-3">
+                    <span style="text-align: right;margin-left: 60px;width: 80px"><b
+                            style="color: red;font-size: 16px;">*</b>标题：</span>
+                    <input type="text" name="title" placeholder="请输入不超过15个字的标题" class="mt-3 mb-3 ml-1"
+                           th:value="${setup.title}">
+                </div>
+
+                <div type="hidden" id="show_span"></div>
+                <div type="hidden" id="imgs"></div>
+                <input type="hidden" id="imgsize" value="0">  <!--记录未上传文件的个数用于JS校验时的判断-->
+
+                <div style="display: flex;align-items: center" class="mt-3 mb-3">
+                    <span style="width: 80px; text-align: right;margin-left: 62px;"><b
+                            style="color: red;font-size: 16px;">*</b>内容：</span>
+                    <textarea name="birth" placeholder="请输入不超过1024个汉字的内容" style="resize: none;height: 300px;width: 80%"
+                              class="mt-3 mb-3" id="editor_id" th:text="${setup.birth}"></textarea>
+                </div>
+                <div class="mt-3" style="display: flex;align-items: center">
+                    <div>
+                        <span style="width: 80px; text-align: right;margin-left: 60px;"><b
+                                style="color: red;font-size: 16px;">*</b>上传配图：</span>
+                    </div>
+                    <table class="table table-striped rounded-0 h-100 m-3 p-0 w-50 " id="yida-table">
+                        <thead style="background-color:#dedede; color:#666666; ">
+                        <tr>
+                            <th>缩略图</th>
+                            <th>文件名</th>
+                            <th class="text-center ">文件大小</th>
+                            <th class="text-center ">移除文件</th>
+                        </tr>
+                        </thead>
+                        <tbody id="yida-tbody">
+                        <input type="hidden" th:value="${id}">
+                        <tr th:each="ma,co:${map}" class="text-center">
+                            <td><img th:src="${ma.key}" style="width: 60px;height: 40px;"></td>
+                            <td th:text="${#strings.substring(ma.value,9,ma.value.length)}"></td>
+                            <td th:text="${#strings.substring(ma.value,0,8)}" class="yida-size"></td>
+                            <td><a href="javascript:void(0)" style="color:black;text-decoration: none"
+                                   class="iconfont icon-icon1 yida-icon-a" onclick="shanchu(this)"></a></td>
+                            <input type="hidden" th:value="${ma.key}" id="ip">
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr style="background-color:#dedede">
+                            <td></td>
+                            <td id="yida-tf-td" th:text="${I}"></td>
+                            <td colspan="3" class="text-center" id="yida-tf-td2" th:text="${K}"></td>
+                        </tr>
+                        <tr style="border:hidden;">
+                            <td colspan="4" class="border-0 text-muted">提示：单张图片不得超过1M,上传图片尺寸不能小于320*180!</td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                    <form id="myform" enctype="multipart/form-data">
+                        <div>
+                            <a id="uploadfile_a" class="text-white"><input type="file" id="myfile" name="yida"
+                                                                           multiple="multiple">选择图片</a><br>
+                            <input type="button" class="btn btn-success rounded-0 mt-2"
+                                   style=" width: 80px;height: 30px;padding:0px;" value="开始上传" id="uploadfile"/>
+                        </div>
+                    </form>
+                </div>
+                <div class="mt-3 mb-5">
+                    <input type="submit" value="发布" class="btn btn-success text-white" style="margin-left: 142px">
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+<script type="text/javascript" src="../bt4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../bt4/js/popper.min.js"></script>
+<script type="text/javascript" src="../bt4/js/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript" src="../js/scennic-1.js"></script>
+<script type="text/javascript" src="../js/scennic-2.js"></script>
+<script type="text/javascript" src="../js/scennic-3.js"></script>
+</html>

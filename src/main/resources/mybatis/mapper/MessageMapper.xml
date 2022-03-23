@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yida.project.mapper.MessageMapper">
+    <!--开启自定义Redis缓存-->
+    <cache type="com.yida.project.config.RedisCache"/>
+
+    <insert id="inser">
+        insert into s_message (
+        title,brief,thumbnail,modify_time,focus
+        ) values(
+        #{title},#{brief},#{thumbnail},#{modifyTime},#{focus}
+        )
+    </insert>
+    <select id="selectme" resultType="com.yida.project.entity.Message">
+        select * from s_message
+        <where>
+            focus=#{focue}
+        </where>
+    </select>
+    <select id="selectallto" resultType="com.yida.project.entity.Message">
+        select * from s_message
+        <where>
+            focus=1
+            <if test="title != null and title !='' ">
+                and title like #{title}
+            </if>
+
+            <if test="begin !=null and begin!=''">
+                and modify_time > #{begin}
+            </if>
+            <if test="end!=null and end!=''">
+                and modify_time <![CDATA[<]]> #{end}
+            </if>
+        </where>
+    </select>
+    <select id="selectallto2" resultType="com.yida.project.entity.Message">
+        select * from s_message
+        <where>
+            <if test="title != null and title !='' ">
+                and title like #{title}
+            </if>
+
+            <if test="begin !=null and begin!=''">
+                and modify_time >= #{begin}
+            </if>
+            <if test="end!=null and end!=''">
+                and modify_time <![CDATA[<]]>= #{end}
+            </if>
+        </where>
+    </select>
+</mapper>

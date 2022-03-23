@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改页面</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/scennic.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../font/iconfont.css">
+
+    <link rel="stylesheet" href="../bt4/css/bootstrap.css">
+    <script type="text/javascript">
+
+        function fanhui() {
+            window.history.back();//返回
+        }
+
+        function jiaoyan() {
+
+            var name = $("[name='name']").val();
+            if (name == "" || name == null) {
+                $("#show_span").text("用户名不能为空");
+                showAndHide();
+                return false;
+            }
+
+
+            var password = $("[name='password']").val();
+            if (password == "" || password == null) {
+                $("#show_span").text("密码不能为空");
+                showAndHide();
+                return false;
+            }
+            if (password.length < 6) {
+                $("#show_span").text("密码不能低于6位数");
+                showAndHide();
+                return false;
+            }
+            $("#show_span").text("注册成功!");
+            showAndHide();
+            return true;
+        }
+
+        var intervalID = null;
+
+        function showAndHide() {  /*js校验提示框显示*/
+            //debugger;
+            $("#show_span").fadeIn("slow");
+
+            intervalID = window.setInterval("hidetip();", 3000);//设置一个定时器
+        }
+
+        function hidetip() {
+            $("#show_span").fadeOut("slow");
+            window.clearInterval(intervalID)
+        }
+    </script>
+</head>
+<body>
+<!--调用头部公共代码-->
+<div th:replace="~{base::header}"></div>
+<section style="display: flex">
+    <!--调用公共的代码片段-->
+    <div th:replace="~{base::section_leaf('update')}" class="bg-light"></div>
+    <div class="base_rahit bg-light">
+        <div class=" mt-3 mb-3">
+                    <span class="text-muted font-weight-bold mt-5 ml-3 "
+                          style="font-size: 20px;margin-top: 5px;">修改个人信息</span>
+        </div>
+        <div type="hidden" id="show_span"></div><!--检验错误信息提示框-->
+        <input type="hidden" th:value="${user.id}" name="id">
+
+        <form th:action="@{/main/updateuser}" method="post" onsubmit="return secretPwd();">
+            <div style="background-color:#eeeeee;display: flex;align-items: center" class="mt-3 mb-3">
+                <span style="text-align: right;margin-left: 60px;width: 80px"><b
+                        style="color: red;font-size: 16px;">*</b>用户名：</span>
+                <input th:value="${user.name}" name="name" class="mt-3 mb-3 ml-1 w-50">
+            </div>
+
+            <div style="background-color:#eeeeee;display: flex;align-items: center" class="mt-3 mb-3">
+                <span style="text-align: right;margin-left: 60px;width: 80px"><b
+                        style="color: red;font-size: 16px;">*</b>密码：</span>
+                <input th:value="${user.password}" name="password" class="mt-3 mb-3 ml-1 w-50"><br><br>
+            </div>
+            <div class="mt-3 mb-5">
+                <input type="submit" value="修 改" class="btn btn-success text-white" style="margin-left: 142px"
+                       onclick=" return jiaoyan()">
+                <input type="button" value="返回" class=" btn btn-success text-white ml-5" onclick="fanhui();"></a>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+<script type="text/javascript" src="../bt4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../bt4/js/popper.min.js"></script>
+<script type="text/javascript" src="../bt4/js/jquery-3.3.1.min.js"></script>
+<script th:src="@{/MD5/md5a.js}" type="text/javascript"></script><!--导入MD5加密依赖-->
+<script type="text/javascript">
+    function secretPwd() { //提交表单之前对密码进行md5加密
+        var name = document.getElementsByName("name")[0].value;
+        var password = document.getElementsByName("password")[0].value;
+        if (name == null || password == null) {
+            alert("用户名或密码不能为空");
+            return false;
+        }
+        var md = md5(password);//使用md5对密码进行加密
+        document.getElementsByName("password")[0].value = md;
+        return true;
+    }
+</script>
+</html>

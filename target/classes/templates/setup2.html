@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>版本管理</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/scennic.css">
+    <link rel="stylesheet" href="../font/iconfont.css">
+    <link rel="stylesheet" href="../bt4/css/bootstrap.css">
+    <script>
+        function andtype(t) {
+            window.location.href = "/main/setup3?" + "cid=" + t;
+        }
+
+        function ver() {
+            var ver = document.getElementById("version").value;
+            var ver2 = document.getElementById("my-ver").value;
+            if (ver <= ver2) {
+                $("#show_span").text("新版本，版本号不等低于旧版本！！！");
+                showAndHide();
+                return false;
+            }
+            return true;
+        }
+
+        var intervalID = null;
+
+        function showAndHide() {  /*js校验提示框显示*/
+            //debugger;
+            $("#show_span").fadeIn("slow");
+
+            intervalID = window.setInterval("hidetip();", 3000);//设置一个定时器
+        }
+
+        function hidetip() {
+            $("#show_span").fadeOut("slow");
+            window.clearInterval(intervalID)
+        }
+    </script>
+</head>
+<body>
+<!--调用头部公共代码-->
+<div th:replace="~{base::header}"></div>
+
+<section style="display: flex">
+    <!--调用公共的代码片段-->
+    <div th:replace="~{base::section_leaf('setup2')}" class="bg-light"></div>
+
+    <div class="base_rahit bg-light">
+        <div style="height: 45px; background-color:#eeeeee;display: flex; justify-content: space-between" class="mt-3">
+            <div class=" mt-2">
+                <span class="text-muted font-weight-bold mt-5 ml-3 "
+                      style="font-size: 20px;margin-top: 5px;">版本管理</span>
+            </div>
+        </div>
+        <div type="hidden" id="show_span"></div>
+        <form th:action="@{/main/setup2}" method="post">
+
+            <div class="mt-3 mb-3">
+                <span style="text-align: right;margin-left: 45px;width: 80px"><b
+                        style="color: red;font-size: 16px;">*</b> 客户端类别：</span>
+                <select name="andtype" class="mr-3"
+                        style="border: 1px solid black; background-color: white;height: 25px;" th:if="${sup.id==1}">
+                    <option value="0" onclick="andtype(2)">Android</option>
+                    <option value="1" selected="selected" onclick="andtype(1)">Iphone</option>
+                </select>
+                <select name="andtype" class="mr-3"
+                        style="border: 1px solid black; background-color: white;height: 25px;" th:if="${sup.id==2}">
+                    <option value="0" onclick="andtype(2)" selected="selected">Android</option>
+                    <option value="1" onclick="andtype(1)">Iphone</option>
+                </select>
+            </div>
+            <div style="display: flex;align-items: center" class="mt-3 mb-3">
+                <span style="text-align: right;margin-left: 60px;width: 80px"><b
+                        style="color: red;font-size: 16px;">*</b>版本号：</span>
+                <input type="text" name="version" placeholder="请选择版本号" class="mt-3 mb-3 ml-1" th:value="${sup.version}"
+                       id="version">
+            </div>
+            <input type="hidden" th:value="${sup.version}" id="my-ver">
+
+            <div style="display: flex;align-items: center" class="mt-3 mb-3">
+                <span style="text-align: right;margin-left: 60px;width: 80px"><b
+                        style="color: red;font-size: 16px;">*</b>更新地址：</span><!--th:value="${setup.city}-->
+                <input type="text" name="city" placeholder="请输入不超过15个字的更新地址" class="mt-3 mb-3 ml-1"
+                       th:value="${sup.city}">
+            </div>
+            <div style="display: flex;align-items: center" class="mt-3 mb-3">
+                <span style="width: 80px; text-align: right;margin-left: 62px;"><b
+                        style="color: red;font-size: 16px;">*</b>更新内容：</span><!--th:text="${setup.myupdate}"-->
+                <textarea name="myupdate" placeholder="请输入不超过1024个汉字的更新内容" style="resize: none;height: 250px;width: 80%"
+                          class="mt-3 mb-3" th:text="${sup.myupdate}"></textarea>
+            </div>
+            <div class="mt-3 mb-3" style="background-color:#eeeeee;">
+                <input type="submit" value="提交" class="btn btn-success text-white mt-3 mb-3" style="margin-left: 142px"
+                       onclick="return ver()">
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+<script type="text/javascript" src="../bt4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../bt4/js/popper.min.js"></script>
+<script type="text/javascript" src="../bt4/js/jquery-3.3.1.min.js"></script>
+</html>

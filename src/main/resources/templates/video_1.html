@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>添加</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/scennic.css">
+    <link rel="stylesheet" href="../bt4/css/bootstrap.css">
+    <link rel="stylesheet" href="../font/iconfont.css">
+    <script>
+
+        function fanhui() {
+            window.history.back();//返回
+        }
+    </script>
+</head>
+<body>
+<!--调用头部公共代码-->
+<div th:replace="~{base::header}"></div>
+
+<section style="display: flex;background-color:#eeeeee;" class="bg-light">
+    <!--调用公共的代码片段-->
+    <div th:replace="~{base::section_leaf('video')}" class="bg-light"></div>
+
+    <div class="base_rahit bg-light" style="margin-left: 15px;background-color:#eeeeee;">
+        <div style="height: 45px; background-color:#eeeeee;display: flex; justify-content: space-between" class="mt-3">
+            <div class=" mt-2">
+                <span class="text-muted font-weight-bold mt-5 ml-3 "
+                      style="font-size: 20px;margin-top: 5px;">发布视频</span>
+            </div>
+        </div>
+        <form th:action="@{/main/postvoide}" method="post" enctype="multipart/form-data">
+            <!-- enctype="multipart/form-data"-->
+            <div class="w-100">
+
+                <input type="hidden" name="ModifyTime"
+                       th:value="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd hh:mm:ss')}">
+                <input type="hidden" name="spotImages" id="spotImages">
+                <div type="hidden" id="show_span"></div>
+
+                <div style="background-color:#eeeeee;display: flex;align-items: center" class="mt-3 mb-3">
+                    <span style="text-align: right;margin-left: 34px;width: 80px"><b
+                            style="color: red;font-size: 16px;">*</b>标题：</span>
+                    <input type="text" name="title" placeholder="请输入不超过15个字的标题" class="mt-3 mb-3 ml-1">
+                </div>
+                <div class="mt-3 mb-3">
+                    <span style="text-align: right;margin-left: 60px;width: 80px"><b
+                            style="color: red;font-size: 16px;">*</b> 分类：</span>
+                    <select name="scenic.id" class="mr-3"
+                            style="border: 1px solid black; background-color: white;height: 25px;">
+                        <option value="0">请选择分类</option>
+                        <option th:each="scenic:${scenics}" th:value="${scenic.id}" th:text="${scenic.name}"></option>
+                    </select>
+                </div>
+                <div style="background-color:#eeeeee;height: 120px;padding-top: 20px;" id="yida-icon">
+                    <span style="width: 80px; text-align: right;margin-left: 22px;" class="mt-3"><b
+                            style="color: red;font-size: 16px;">*</b>上传缩虐图：</span>
+                    <a id="uploadfile_a2"><input type="file" id="myfile2" name="yida2">
+                        <spna id="icon"></spna>
+                        <img src="../img/shangchuan.jpg" style="width: 60px;height: 60px;" class="yida-my-img"
+                             id="yida-my-img"></a>
+                    <br>
+                    <spna class="mt-1 text-muted mt-3 mb-3" style="font-size: 13px;margin-left: 130px;">
+                        提示:单张图片大小不得超过1M
+                    </spna>
+
+                </div>
+                <div class="mt-3" style="display: flex;align-items: center">
+                    <div>
+                        <span style="width: 80px; text-align: right;margin-left: 37px;"><b
+                                style="color: red;font-size: 16px;">*</b>上传视频：</span>
+                    </div>
+                    <table class="table table-striped rounded-0 h-100 m-3 p-0 w-50 " id="yida-table">
+                        <thead style="background-color:#dedede; color:#666666; ">
+                        <tr>
+                            <th>视频名称</th>
+                            <th class="text-center ">视频大小</th>
+                            <th class="text-center ">移除文件</th>
+                        </tr>
+                        </thead>
+                        <tbody id="yida-tbody">
+                        </tbody>
+                        <tfoot>
+                        <tr style="background-color:#dedede">
+                            <td colspan="1" id="yida-tf-td">0个视频</td>
+                            <td colspan="2" class="text-center" id="yida-tf-td2">总计:0.00MB</td>
+                        </tr>
+                        <tr style="border:hidden;">
+                            <td colspan="4" class="border-0 text-muted">提示：视频大小不能超过100M！！</td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                    <form id="myform" enctype="multipart/form-data">
+                        <div>
+                            <a id="uploadfile_a" class="text-white"><input type="file" id="myfile" name="yida"
+                                                                           multiple="multiple">添加视频</a><br>
+                            <input type="button" class="btn btn-success rounded-0 mt-2"
+                                   style=" width: 80px;height: 30px;padding:0px;" value="开始上传" id="uploadfile"/>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="mt-3 mb-5">
+                    <input type="submit" value="发布" class="btn btn-success text-white" style="margin-left: 142px"
+                           onclick="return check()">
+                    <input type="button" value="返回" class=" btn btn-success text-white" onclick="fanhui();"></a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+<script type="text/javascript" src="../bt4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../bt4/js/popper.min.js"></script>
+<script type="text/javascript" src="../bt4/js/jquery-3.3.1.min.js"></script>
+
+
+<script type="text/javascript" src="../js/scennic-3.js"></script><!--缩虐图-->
+<script type="text/javascript" src="../js/video.js"></script>
+<script type="text/javascript" src="../js/video303.js"></script>
+
+</html>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yida.project.mapper.PeripheralMapper">
+
+    <!--开启自定义Redis缓存-->
+    <cache type="com.yida.project.config.RedisCache"/>
+
+    <insert id="add">
+        insert into s_peripheral(
+        title,classify_id,stay,traffic,price,recommendation,city,
+        territory,longitude,latitude,tho,tho2,brief,spot_images,thumbnail,Modify_time
+        ) values(
+        #{title},#{classify.id},#{stay},#{traffic},#{price},#{recommendation},#{city},
+        #{territory}, #{longitude},#{latitude},#{tho},#{tho2},#{brief},#{spotImages},#{thumbnail},#{ModifyTime}
+        )
+    </insert>
+
+    <resultMap id="my_map" type="com.yida.project.entity.Peripheral">
+        <id property="id" column="id"></id>
+        <result property="title" column="title"></result>
+        <result property="stay" column="stay"></result>
+        <result property="traffic" column="traffic"></result>
+        <result property="price" column="price"></result>
+        <result property="recommendation" column="recommendation"></result>
+        <result property="city" column="city"></result>
+        <result property="territory" column="territory"></result>
+        <result property="longitude" column="longitude"></result>
+        <result property="latitude" column="latitude"></result>
+        <result property="tho" column="tho"></result>
+        <result property="tho2" column="tho2"></result>
+        <result property="brief" column="brief"></result>
+        <result property="spotImages" column="spot_images"></result>
+        <result property="thumbnail" column="thumbnail"></result>
+        <result property="ModifyTime" column="Modify_time"></result>
+        <association property="classify" column="classify_id"
+                     select="com.yida.project.mapper.ClassifyMapper.Read"></association>
+    </resultMap>
+    <select id="selecton" resultMap="my_map">
+        select * from s_peripheral
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <select id="selectall" resultMap="my_map">
+        select * from s_peripheral
+        <where>
+            <if test="title != null and title !='' ">
+                and title like #{title}
+            </if>
+            <if test=" classify_id != 0">
+                and classify_id= #{classify_id}
+            </if>
+            <if test="begin !=null and begin!=''">
+                and Modify_time > #{begin}
+            </if>
+            <if test="end!=null and end!=''">
+                and Modify_time <![CDATA[<]]> #{end}
+            </if>
+        </where>
+    </select>
+</mapper>

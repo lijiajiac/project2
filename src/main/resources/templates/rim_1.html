@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>添加</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/scennic.css">
+    <link rel="stylesheet" href="../bt4/css/bootstrap.css">
+    <link rel="stylesheet" href="../font/iconfont.css">
+    <script type="text/javascript"
+            src="https://webapi.amap.com/maps?v=1.4.15&key=b850c2cfef116acbbbc80fad771e2196&plugin=AMap.Geocoder"></script>
+    <script>
+        var geocoder = new AMap.Geocoder();
+
+        function geoCode() {
+            var addr = document.getElementById('address').value;
+            console.log(addr);
+            geocoder.getLocation(addr, function (status, result) {
+                if (status === 'complete' && result.geocodes.length) {
+                    var lnglat = result.geocodes[0].location; //获取经纬度
+                    var arry = lnglat.toString().split(",");  //分离成经度和纬度的数组
+                    document.getElementById('longitude').value = arry[0];  //经度
+                    document.getElementById('latitude').value = arry[1];  //纬度
+                } else {
+                    $("#show_span").text("根据地址查询位置失败");
+                    showAndHide();
+                }
+            });
+        }
+
+        function fanhui() {
+            window.history.back();//返回
+        }
+    </script>
+</head>
+<body>
+<!--调用头部公共代码-->
+<div th:replace="~{base::header}"></div>
+
+<section style="display: flex;" class="bg-light">
+    <!--调用公共的代码片段-->
+    <div th:replace="~{base::section_leaf('rim')}" class="bg-light"></div>
+
+    <div class="base_rahit bg-light" style="margin-left: 15px;background-color:#eeeeee;">
+        <div type="hidden" id="show_span"></div>
+        <div style="height: 45px; background-color:#eeeeee;display: flex; justify-content: space-between" class="mt-3">
+            <div class=" mt-2">
+                <span class="text-muted font-weight-bold mt-5 ml-3 "
+                      style="font-size: 20px;margin-top: 5px;">发布吃喝玩乐</span>
+            </div>
+        </div>
+        <form th:action="@{/main/rimp}" method="post" enctype="multipart/form-data" class="ml-3">
+            <!-- enctype="multipart/form-data"-->
+            <div class="w-100">
+
+                <input type="hidden" name="ModifyTime"
+                       th:value="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd hh:mm:ss')}">
+                <input type="hidden" name="spotImages" id="spotImages">
+                <input type="hidden" id="imgsize" value="0">  <!--记录未上传文件的个数用于JS校验时的判断-->
+
+                <div style="background-color:#eeeeee;display: flex;align-items: center" class="mt-3 mb-3">
+                    <span style="text-align: right;margin-left: 60px;width: 80px"><b
+                            style="color: red;font-size: 16px;">*</b>标题：</span>
+                    <input type="text" name="title" placeholder="请输入不超过15个字的标题" class="mt-3 mb-3 ml-1">
+                </div>
+                <div class="mt-3 mb-3 w-100">
+                    <span style="text-align: right;margin-left: 60px;width: 80px"><b
+                            style="color: red;font-size: 16px;">*</b> 所属类型：</span>
+                    <select name="classify.id" class="mr-3"
+                            style="border: 1px solid black; background-color: white;height: 25px;">
+                        <option value="0">请选择所属类型</option>
+                        <option th:each="classify:${list}" th:value="${classify.id}"
+                                th:text="${classify.name}"></option>
+                    </select>
+                </div>
+
+                <div class="w-100 mt-3 mb-3" style="display: flex;background-color:#eeeeee;">
+                    <div class="w-50">
+                    <span style="text-align: right;margin-left: 63px;width: 80px">
+                        <b style="color: red;font-size: 16px;">*</b>住所类型：</span>
+                        <input type="text" placeholder="请输入不超过50个字的交通信息" class="mb-3 mt-3" name="stay">
+                    </div>
+                    <div class="w-50">
+                    <span style="text-align: right;margin-left: 63px;width: 80px">
+                        <b style="color: red;font-size: 16px;">*</b>交通信息：</span>
+                        <input type="text" placeholder="请输入不超过50个字的交通信息" class="mb-3 mt-3" name="traffic">
+                    </div>
+                </div>
+
+                <div class="w-100 mt-3 mb-3" style="display: flex">
+                    <div class="w-50">
+                        <span style="text-align: right;margin-left: 63px;width: 80px">
+                    <b style="color: red;font-size: 16px;">*</b>参考价格：</span>
+                        <input type="text" placeholder="请输入不超过50个字的交通信息" class="mb-1" name="price">
+                    </div>
+                    <div class="w-50">
+                <span style="text-align: right;margin-left: 77px;width: 80px">
+                    <b style="color: red;font-size: 16px;">*</b>推荐菜：</span>
+                        <input type="text" placeholder="请输入不超过50个字的交通信息" class="mb-1" name="recommendation">
+                    </div>
+                </div>
+
+                <div class="w-100 mt-3 mb-3" style="background-color:#eeeeee;">
+                <span style="text-align: right;margin-left: 86px;width: 80px">
+                    <b style="color: red;font-size: 16px;">*</b> 地址：</span>
+                    <input type="text" placeholder="地址越详细经纬度越精准" class="mt-3 mb-1" name="city" id="address">
+                    <button type="button" class="btn btn-success text-white mb-2" style="margin-left: 100px;"
+                            onclick="geoCode();">获取经纬度
+                    </button>
+                </div>
+                <div class="mt-3 mb-3">
+                    <span style="width: 80px; text-align: right;margin-left: 35px;"><b
+                            style="color: red;font-size: 16px;">*</b>地图显示名称：</span>
+                    <input type="text" placeholder="输入不超过50个汉字的地图显示名称" class="mt-3 mb-3" name="territory">
+                    <b style="color: red;font-size: 16px;margin-left: 50px">*</b>
+                    经度：<input type="text" placeholder="请输入经度" class="mt-3 mb-3" style="width: 80px;" name="longitude"
+                              id="longitude">
+                    <b style="color: red;font-size: 16px;margin-left: 50px">*</b>
+                    纬度：<input type="text" placeholder="请输入纬度" class="mt-3 mb-3" style="width: 80px;" name="latitude"
+                              id="latitude">
+                </div>
+                <div class="mt-3 mb-3" style="display: flex;background-color:#eeeeee;">
+                    <div class="w-50">
+                        <span style="width: 80px; text-align: right;margin-left: 52px;"><b
+                                style="color: red;font-size: 16px;">*</b> 联系电话1：</span>
+                        <input type="text" placeholder="选填号码()" name="tho" class="mb-3 mt-3">
+                    </div>
+                    <div class="w-50">
+                        <b style="color: red;font-size: 16px;">*</b>
+                        联系电话2：<input type="text" placeholder="选填号码()" name="tho2" class="mb-3 mt-3">
+                    </div>
+                </div>
+
+                <div style="display: flex;align-items: center" class="mt-3 mb-3">
+                    <span style="width: 80px; text-align: right;margin-left: 62px;"><b
+                            style="color: red;font-size: 16px;">*</b>简介：</span>
+                    <textarea name="brief" placeholder="请输入不超过1024个汉字的简介" style="resize: none;height: 100px;width: 80%"
+                              class="mt-3 mb-3"></textarea>
+                </div>
+                <div class="mt-3" style="display: flex;align-items: center;background-color:#eeeeee;">
+                    <div>
+                        <span style="width: 80px; text-align: right;margin-left: 60px;"><b
+                                style="color: red;font-size: 16px;">*</b>上传配图：</span>
+                    </div>
+                    <table class="table table-striped rounded-0 h-100 m-3 p-0 w-50 " id="yida-table">
+                        <thead style="background-color:#dedede; color:#666666; ">
+                        <tr>
+                            <th>缩略图</th>
+                            <th>文件名</th>
+                            <th class="text-center ">文件</th>
+                            <th class="text-center ">移除文件</th>
+                        </tr>
+                        </thead>
+                        <tbody id="yida-tbody">
+                        </tbody>
+                        <tfoot>
+                        <tr style="background-color:#dedede">
+                            <td></td>
+                            <td id="yida-tf-td">0个文件</td>
+                            <td colspan="2" class="text-center" id="yida-tf-td2">总计:0.00kb</td>
+                        </tr>
+                        <tr style="border:hidden;">
+                            <td colspan="4" class="border-0 text-muted">提示：单张图片不得超过1M,上传图片尺寸不能小于320*180!</td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                    <form id="myform" enctype="multipart/form-data">
+                        <div>
+                            <a id="uploadfile_a" class="text-white"><input type="file" id="myfile" name="yida"
+                                                                           multiple="multiple">选择图片</a><br>
+                            <input type="button" class="btn btn-success rounded-0 mt-2"
+                                   style=" width: 80px;height: 30px;padding:0px;" value="开始上传" id="uploadfile"/>
+                        </div>
+                    </form>
+                </div>
+                <div style="height: 120px;padding-top: 20px;" id="yida-icon">
+                    <span style="width: 80px; text-align: right;margin-left: 44px;" class="mt-3"><b
+                            style="color: red;font-size: 16px;">*</b>上传缩虐图：</span>
+                    <a id="uploadfile_a2"><input type="file" id="myfile2" name="yida2">
+                        <spna id="icon"></spna>
+                        <img src="../img/shangchuan.jpg" style="width: 60px;height: 60px;" id="yida-my-img"></a>
+                    <br>
+                    <spna class="mt-1 text-muted mt-3 mb-3" style="font-size: 13px;margin-left: 130px;">
+                        提示:单张图片大小不得超过1M
+                    </spna>
+
+                </div>
+                <div class="mt-3 mb-3" style="background-color:#eeeeee;">
+                    <input type="submit" value="发布" class="btn btn-success text-white mt-3 mb-3"
+                           style="margin-left: 142px" onclick="return check()">
+                    <input type="button" value="返回" class=" btn btn-success text-white mb-3 mt-3"
+                           onclick="fanhui();"></a>
+                </div>
+            </div>
+    </div>
+    </form>
+
+    </div>
+</section>
+</body>
+<script type="text/javascript" src="../bt4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../bt4/js/popper.min.js"></script>
+<script type="text/javascript" src="../bt4/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../js/scennic-1.js"></script>
+<script type="text/javascript" src="../js/scennic-2.js"></script>
+<script type="text/javascript" src="../js/scennic-3.js"></script>
+<script type="text/javascript" src="../js/scennic-update.js"></script>
+
+<script type="text/javascript" src="../js/rim303.js"></script>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>景点列表[[${port}]]</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/scennic.css">
+    <link rel="stylesheet" href="../font/iconfont.css">
+
+    <link rel="stylesheet" href="../bt4/css/bootstrap.css">
+    <script>
+        function datejiaoyan() {
+            var time = new Date();
+            var nian = time.getFullYear();
+            var yue = time.getMonth() + 1;
+            var tian = time.getDate();
+            if (yue < 10) {
+                yue = "0" + yue;
+            }
+            var date = nian + "-" + yue + "-" + tian;
+            var begin = document.getElementById("begin").value;
+            var end = document.getElementById("end").value;
+
+            if (begin > date) {
+                $("#show_span").text("发布起始时间不能大于当前时间");
+                showAndHide();
+                return false;
+            }
+            if (end > date) {
+                $("#show_span").text("发布结束时间不能大于当前时间");
+                showAndHide();
+                return false;
+            }
+            if (begin > end && end != null && end != "") {
+                $("#show_span").text("发布起始时间不能大于结束时间");
+                showAndHide();
+                return false;
+            }
+            if (begin != "" && end != "" && begin == end) {
+                $("#show_span").text("发布起始时间不能等于结束时间");
+                showAndHide();
+                return false;
+            }
+
+            return true;
+        }
+
+        var intervalID = null;
+
+        function showAndHide() {  /*js校验提示框显示*/
+            $("#show_span").fadeIn("slow");
+
+            intervalID = window.setInterval("hidetip();", 3000);//设置一个定时器
+        }
+
+        function hidetip() {
+            $("#show_span").fadeOut("slow");
+            window.clearInterval(intervalID)
+        }
+
+
+        function jiazai(t) {//分页页面跳转
+            var value = t.innerText;
+            var va = parseInt(value);
+            window.location.href = "/main/scennic?page=" + va;
+        }
+
+        function jiazai2() {//下一页分页跳转
+            var value = document.getElementById("xiayiye").value;
+            var va = parseInt(value);
+
+            window.location.href = "/main/scennic?page=" + va;
+        }
+
+        function jiazai1() {//上一页分页跳转
+            var value = document.getElementById("shangyiye").value;
+            var va = parseInt(value);
+            window.location.href = "/main/scennic?page=" + va;
+        }
+
+        function jiazai3() {//分页尾页跳转
+            var value = document.getElementById("weiye").value;
+            var va = parseInt(value);
+            //搜索按钮分页跳转
+            window.location.href = "/main/scennic?page=" + va;
+        }
+
+        function jiazai33() {//分页首页跳转
+            var value = document.getElementById("sye").value;
+            var va = parseInt(value);
+            //搜索按钮分页跳转
+            window.location.href = "/main/scennic?page=" + va;
+        }
+    </script>
+</head>
+<body>
+<!--调用头部公共代码-->
+<div th:replace="~{base::header}"></div>
+
+<section style="display: flex">
+    <!--调用公共的代码片段-->
+    <div th:replace="~{base::section_leaf('scennic')}" class="bg-light"></div>
+
+    <div class="base_rahit bg-light">
+        <div style="height: 45px; background-color:#eeeeee;display: flex; justify-content: space-between"
+             class="ml-3 mt-3">
+            <div class=" mt-2">
+                <span class="text-muted font-weight-bold mt-5 ml-3 "
+                      style="font-size: 20px;margin-top: 5px;">景点列表</span>
+            </div>
+            <div>
+                <a th:href="@{/main/scennic_1}" class="btn btn-outline-success btn-sm mt-3 mr-1 mb-1">添加</a>
+                <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mt-3 mr-5 mb-1"
+                   onclick="return deletes()">删除</a>
+            </div>
+        </div>
+        <form th:action="@{/main/readall}" method="post" class="m-3">
+            <div style="display: flex;flex-wrap: wrap;margin-left: 15px">
+                景点标题：<input type="text" name="title" class="mr-3" style="height: 28px;">
+                景区：
+                <select name="scenic.id" class="mr-3"
+                        style="border: 1px solid black; background-color: white;height: 28px;">
+                    <option value="0">请选择景区</option>
+                    <option th:each="scenic:${scenics}" th:value="${scenic.id}" th:text="${scenic.name}"></option>
+                </select>
+                发布时间： <input type="text" class="mr-3  Wdate mr-1" name="begin" id="begin"
+                             onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,readOnly:true})"
+                             style="width: 180px !important;height: 28px !important;">至
+                <input type="text" class="  Wdate ml-2 mr-2" name="end" id="end"
+                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true,readOnly:true})"
+                       style="width: 180px !important;height: 28px !important;">
+                <button type="submit" class="btn btn-success  text-white ml-3" onclick=" return datejiaoyan()">搜索
+                </button>
+            </div>
+        </form>
+        <div type="hidden" id="show_span"></div>
+        <span type="hidden" id="page-s" th:value="${page}"></span>
+
+        <table class="w-100 m-3" style="margin-left: 15px;" id="my-table">
+            <tr class="mt-3 mb-3 " bgcolor="#00ced1 " style="font-weight: bold; ">
+                <th class="pt-3 pb-3"><input type="checkbox" class="ml-3" id="quanxuan" onclick="quanxuan()"></th>
+                <th>序号</th>
+                <th>标题</th>
+                <th>更新时间</th>
+                <th>操作</th>
+            </tr>
+            <tr th:each="rns,state:${RNS}">
+                <input type="hidden" th:value="${rns.id}" id="val">
+                <td><input type="checkbox" class="ml-3" id="mychek" name="che" onclick=" danxuan()"></td>
+                <td th:text="${state.count}"></td>
+                <td th:text="${rns.title}"></td>
+                <td th:text="${#dates.format(rns.modifyTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td>
+                    <a th:href="@{/main/update(id=${rns.id},page=${page})}"
+                       class="btn btn-outline-success btn-sm mt-3 mb-1">修改</a>&nbsp;&nbsp;
+                    <a th:href="@{/main/delete(id=${rns.id},page=${page})}"
+                       class="btn btn-outline-success btn-sm mt-3 mr-5 mb-1">删除</a>
+                </td>
+            </tr>
+            <tr>
+                <td th:colspan="4" class="text-right mt-3 text-center">
+                    <div style="display: flex; flex-flow:wrap;font-size: 13px;justify-content: right;width: 100%;"
+                         class="mt-3">
+
+                        <div style="width: 70px; height: 28px; background-color:#eeeeee;" class=" mr-2">
+                            <button onclick="jiazai1()" th:if="${pageinfo.hasPreviousPage}" class="page_a"
+                                    style="text-decoration:none;width: 70px;height: 28px; color: limegreen;">上一页
+                            </button>
+                            <button th:if="${!pageinfo.hasPreviousPage}" class="page_a "
+                                    style="text-decoration:none;width: 70px;height: 28px;">上一页
+                            </button><!--没有上一页时显示-->
+                            <input type="hidden" th:value="${pageinfo.prePage}" id="shangyiye">
+                        </div><!--有上一页时显示-->
+
+                        <div th:if="${pageinfo.pages<6}" style="display: flex">
+                            <div th:if="${pageinfo.pageNum!=1}" style="background-color:#eeeeee;" class="mr-1">
+                                <button onclick="jiazai(this)" class="page_a "
+                                        style="color: limegreen;width: 28px;height: 28px;">1
+                                </button>
+                            </div>
+                            <div class=" mr-1 " th:if="${pageinfo.pageNum==1}">
+                                <button class="page_a text-white bg-success" style="width: 28px;height: 28px;  ">1
+                                </button><!--当前页数是第1页显示-->
+                            </div>
+
+                            <span th:if="${pageinfo.pages}>1">
+                             <div th:if="${pageinfo.pageNum!=2}" style="background-color:#eeeeee; " class="mr-1">
+                            <button onclick="jiazai(this)" class="page_a "
+                                    style="color: limegreen;width: 28px;height: 28px;">2</button><!--当前页数不是第二页显示-->
+                            </div>
+                            <div class=" mr-1 " th:if="${pageinfo.pageNum==2}">
+                            <button class="page_a text-white bg-success" style="width: 28px;height: 28px; ">2</button>
+                                <!--当前页数是第2页显示-->
+                            </div>
+                         </span>
+
+                            <span th:if="${pageinfo.pages}>2">
+                              <div th:if="${pageinfo.pageNum!=3}" style="background-color:#eeeeee; " class=" mr-1">
+                            <button onclick="jiazai(this)" class="page_a "
+                                    style="text-decoration:none;color: limegreen;width: 28px;height: 28px;">3</button>
+                                  <!--当前页数不是第二页显示-->
+                            </div>
+                            <div class=" mr-1" th:if="${pageinfo.pageNum==3}">
+                            <button class="page_a text-white bg-success" style="width: 28px;height: 28px; ">3</button>
+                                <!--当前页数是第3页显示-->
+                            </div>
+                         </span>
+
+                            <span th:if="${pageinfo.pages}>3">
+                             <div th:if="${pageinfo.pageNum!=4}" style="background-color:#eeeeee; " class=" mr-1">
+                            <button onclick="jiazai(this)" class="page_a "
+                                    style="color: limegreen;width: 28px;height: 28px; ">4</button><!--当前页数不是第二页显示-->
+                            </div>
+                            <div class=" mr-1 bg-success" th:if="${pageinfo.pageNum==4}">
+                            <button class="page_a text-white bg-success" style="width: 28px;height: 28px; ">4</button>
+                                <!--当前页数是第4页显示-->
+                            </div>
+                         </span>
+
+                            <span th:if="${pageinfo.pages}>4">
+                             <div th:if="${pageinfo.pageNum!=5}" style="background-color:#eeeeee; " class=" mr-1">
+                            <button onclick="jiazai(this)" class="page_a "
+                                    style="text-decoration:none;color: limegreen;width: 28px;height: 28px;">5</button>
+                                 <!--当前页数不是第二页显示-->
+                            </div>
+                            <div class=" mr-1 " th:if="${pageinfo.pageNum==5}">
+                            <button class="page_a text-white bg-success" style="width: 28px;height: 28px;  ">5</button>
+                                <!--当前页数是第5页显示-->
+                            </div>
+
+                         </span>
+
+                        </div>  <!--总页数小于6时显示样式-->
+
+                        <div th:if="${pageinfo.pages>=6}" style="display: flex">
+
+                            <div th:if="${page!=1}" style="width: 45px;height: 28px; background-color:#eeeeee;"
+                                 class=" mr-4 ml-1">
+                                <button onclick="jiazai33()" class="page_a"
+                                        style="text-decoration:none;width: 45px;height: 28px; color: limegreen;">首页
+                                </button>
+                                <input type="hidden" th:value="1" id="sye">
+                            </div>
+
+                            <div th:if="${page==1}" style="width: 45px;height: 28px;" class="bg-success mr-4">
+                                <button class="page_a text-white bg-success" style="width: 45px;height: 28px; ">首页
+                                </button>
+                                <input type="hidden" th:value="1" id="sye">
+                            </div>
+
+                            <div style="display: flex" th:if="${page<4}"><!--当总页数大于6，点击前三页时的显示样式-->
+                                <div th:if="${pageinfo.pageNum!=1}" style="background-color:#eeeeee; " class="mr-1">
+                                    <button onclick="jiazai(this)" class="page_a "
+                                            style="width: 28px;height: 28px;color: limegreen;">1
+                                    </button>
+                                </div>
+                                <div class=" mr-1" th:if="${pageinfo.pageNum==1}">
+                                    <button class="page_a text-white bg-success" style="width: 28px;height: 28px;">1
+                                    </button><!--当前页数是第1页显示-->
+                                </div>
+
+                                <span th:if="${pageinfo.pages}>1">
+                                     <div th:if="${pageinfo.pageNum!=2}" style="background-color:#eeeeee; "
+                                          class=" mr-1">
+                                    <button onclick="jiazai(this)" class="page_a "
+                                            style="width: 28px;height: 28px;color: limegreen;" th:text="2"></button>
+                                         <!--当前页数不是第二页显示-->
+                                    </div>
+                                    <div class=" mr-1 " th:if="${pageinfo.pageNum==2}">
+                                    <button class="page_a text-white bg-success"
+                                            style="width: 28px;height: 28px;">2</button><!--当前页数是第2页显示-->
+                                    </div>
+                                 </span>
+
+                                <span th:if="${pageinfo.pages}>2">
+                                     <div th:if="${pageinfo.pageNum!=3}" style="background-color:#eeeeee; "
+                                          class=" mr-1">
+                                    <button onclick="jiazai(this)" class="page_a "
+                                            style="width: 28px;height: 28px;color: limegreen;">3</button>
+                                         <!--当前页数不是第二页显示-->
+                                    </div>
+                                    <div class=" mr-1 " th:if="${pageinfo.pageNum==3}">
+                                    <button class="page_a text-white bg-success"
+                                            style="width: 28px;height: 28px;">3</button><!--当前页数是第3页显示-->
+                                    </div>
+                                 </span>
+
+                                <span th:if="${pageinfo.pages}>3">
+                                     <div th:if="${pageinfo.pageNum!=4}" style="background-color:#eeeeee; "
+                                          class=" mr-1">
+                                    <button onclick="jiazai(this)" class="page_a "
+                                            style="width: 28px;height: 28px;color: limegreen;">4</button>
+                                         <!--当前页数不是第二页显示-->
+                                    </div>
+                                    <div class=" mr-1" th:if="${pageinfo.pageNum==4}">
+                                    <button class="page_a text-white bg-success"
+                                            style="width: 28px;height: 28px; ">4</button><!--当前页数是第4页显示-->
+                                    </div>
+                                 </span>
+
+                                <span th:if="${pageinfo.pages}>4">
+                             <div th:if="${pageinfo.pageNum!=5}" style=" background-color:#eeeeee; " class=" mr-1">
+                            <button onclick="jiazai(this)" class="page_a "
+                                    style="width: 28px;height: 28px;color: limegreen;">5</button><!--当前页数不是第二页显示-->
+                            </div>
+                            <div class=" mr-1 " th:if="${pageinfo.pageNum==5}">
+                            <button class="page_a text-white bg-success" style="width: 28px;height: 28px; ">5</button>
+                                <!--当前页数是第5页显示-->
+                            </div>
+                         </span>
+                            </div>
+
+                            <div th:if="${page>=4}">  <!--当总页数大于6时。点击的页数大于等于4时的两种样式-->
+                                <div style="display: flex" th:if="${page <=(pageinfo.pages)-3}"><!--当点击页数大于等于4时的显示样式-->
+                                    <div style="background-color:#eeeeee; " class=" mr-1">
+                                        <button onclick="jiazai(this)" class="page_a"
+                                                style="width: 28px;height: 28px;color: limegreen;"
+                                                th:text="${p1}"></button>
+                                    </div>
+
+                                    <div style="background-color:#eeeeee; " class=" mr-1">
+                                        <button onclick="jiazai(this)" class="page_a"
+                                                style="width: 28px;height: 28px;color: limegreen;"
+                                                th:text="${p2}"></button>
+                                    </div>
+
+                                    <div class="mr-1">
+                                        <button class="page_a text-white bg-success" th:text="${p3}"
+                                                style="width: 28px;height: 28px;  "></button>
+                                    </div>
+
+                                    <div style="background-color:#eeeeee; " class=" mr-1">
+                                        <button onclick="jiazai(this)" class="page_a"
+                                                style="width: 28px;height: 28px;color: limegreen;"
+                                                th:text="${p4}"></button>
+                                    </div>
+
+                                    <div style="background-color:#eeeeee; " class=" mr-1">
+                                        <button onclick="jiazai(this)" class="page_a"
+                                                style="width: 28px;height: 28px;color: limegreen;"
+                                                th:text="${p5}"></button>
+                                    </div>
+                                </div>
+                                <div th:if="${page >(pageinfo.pages)-3}" style="display: flex"><!--末页的跳转样式-->
+                                    <div th:if="${pageinfo.pageNum!= p1}" style="background-color:#eeeeee; "
+                                         class="mr-1">
+                                        <button onclick="jiazai(this)" class="page_a "
+                                                style="width: 28px;height: 28px;color: limegreen;"
+                                                th:text="${p1}"></button>
+                                    </div>
+
+                                    <div th:if="${pageinfo.pageNum!=p2}" style=" background-color:#eeeeee; "
+                                         class="mr-1">
+                                        <button onclick="jiazai(this)" class="page_a "
+                                                style="width: 28px;height: 28px;color: limegreen;"
+                                                th:text="${p2}"></button><!--当前页数不是第二页显示-->
+                                    </div>
+
+                                    <div th:if="${pageinfo.pageNum!=p3}" style="background-color:#eeeeee; "
+                                         class=" mr-1">
+                                        <button onclick="jiazai(this)" class="page_a "
+                                                style="width: 28px;height: 28px;color: limegreen;"
+                                                th:text="${p3}"></button><!--当前页数不是第二页显示-->
+                                    </div>
+                                    <div class="mr-1" th:if="${pageinfo.pageNum==p3}">
+                                        <button class="page_a text-white bg-success" th:text="${p3}"
+                                                style="width: 28px;height: 28px;"></button><!--当前页数是第3页显示-->
+                                    </div>
+
+                                    <div th:if="${pageinfo.pageNum!=p4}" style="background-color:#eeeeee; "
+                                         class=" mr-1">
+                                        <button onclick="jiazai(this)" class="page_a "
+                                                style="width: 28px;height: 28px;color: limegreen;"
+                                                th:text="${p4}"></button><!--当前页数不是第二页显示-->
+                                    </div>
+                                    <div class=" mr-1 " th:if="${pageinfo.pageNum==p4}">
+                                        <button class="page_a text-white bg-success" th:text="${p4}"
+                                                style="width: 28px;height: 28px;  "></button><!--当前页数是第4页显示-->
+                                    </div>
+
+                                    <div th:if="${pageinfo.pageNum!=p5}" style="background-color:#eeeeee; "
+                                         class="mr-1">
+                                        <button onclick="jiazai(this)" class="page_a "
+                                                style="width: 28px;height: 28px;color: limegreen;"
+                                                th:text="${p5}"></button><!--当前页数不是第二页显示-->
+                                    </div>
+                                    <div class="mr-1" th:if="${pageinfo.pageNum==p5}">
+                                        <button class="page_a text-white bg-success" th:text="${p5}"
+                                                style="width: 28px;height: 28px;"></button><!--当前页数是第5页显示-->
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div th:if="${pageinfo.hasNextPage}" style="background-color:#eeeeee;" class="mr-3 ml-3">
+                                <button onclick="jiazai3()" class="page_a"
+                                        style="width: 45px;height: 28px; color: limegreen;">末页
+                                </button>
+                                <input type="hidden" th:value="${pageinfo.pages}" id="weiye">
+                            </div>
+                            <div th:if="${!pageinfo.hasNextPage}" class=" mr-3 ml-3">
+                                <button class="page_a text-white bg-success" style="width: 45px;height: 28px; ">末页
+                                </button>
+                                <input type="hidden" th:value="${pageinfo.pages}" id="weiye">
+                            </div>
+
+                        </div>
+
+                        <div style="width: 70px; height: 28px; background-color:#eeeeee;" class=" mr-2">
+                            <button th:if="${pageinfo.hasNextPage}" onclick="jiazai2()" class="page_a"
+                                    style="text-decoration:none;color: limegreen;width: 70px;height: 28px;">下一页
+                            </button>
+                            <button th:if="${!pageinfo.hasNextPage}" class="page_a "
+                                    style="text-decoration:none;width: 70px;height: 28px;">下一页
+                            </button>
+                            <input type="hidden" id="xiayiye" th:value="${pageinfo.nextPage}">
+                        </div>
+
+                        <span th:text="'第'+'&nbsp;&nbsp;'+${pageinfo.pageNum}+'/'+${pageinfo.pages}+'&nbsp;&nbsp;'+'页'+'&nbsp;'+'共'+'&nbsp;&nbsp;'+${pageinfo.pages}+'&nbsp;&nbsp;'+'页'"></span>
+                        <span class="ml-2 mr-1">到第</span><input type="text" style="width: 40px;height: 25px;"
+                                                                class="mr-1 ml-1" id="my-yida-page">&nbsp;页&nbsp;<input
+                            type="button" onclick="dian()" class="btn btn-sm btn-success ml-1 mb-1" value="跳转"
+                            style="margin-right: -40px;">
+                        <input type="hidden" th:value="${pageinfo.pages}" id="my-yida-pagemax">
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+</section>
+</body>
+<script type="text/javascript" src="../bt4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../bt4/bootstrap.js"></script>
+<script type="text/javascript" src="../bt4/js/popper.min.js"></script>
+<script type="text/javascript" src="../bt4/js/jquery-3.3.1.min.js"></script>
+
+
+<script type="text/javascript" src="../js/scennic2_1.js"></script>
+
+<script src="../My97DatePicker/WdatePicker.js"></script><!--日历控件需要-->
+</html>
